@@ -1,0 +1,26 @@
+version: "3.9"
+
+networks:
+  selvas-net:
+    name: selvas-net
+    external: false
+
+services:
+  jenkins:
+    build:
+      context: ./jenkins
+      dockerfile: Dockerfile
+    image: selvas-jenkins
+    container_name: selvas-jenkins
+    networks:
+      - default
+      - selvas-net
+    environment:
+      - JENKINS_ADMIN_ID=admin
+      - JENKINS_ADMIN_PASSWORD=password
+    ports:
+      - 8080:8080
+      - 5000:5000
+    volumes:
+      - ../jenkins-data:/var/jenkins_home
+      - /var/run/docker.sock:/var/run/docker.sock
